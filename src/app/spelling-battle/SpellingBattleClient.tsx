@@ -15,6 +15,7 @@ import { nowMs } from "@/lib/clock";
 import { speedBonus } from "@/lib/scoring";
 import { usePlatformData } from "@/lib/store";
 import { SaveScoreDialog } from "@/components/SaveScoreDialog";
+import { FloatLayer, GameFooter } from "@/components/gameParts";
 import { imageUrlFor } from "@/lib/words";
 import type { AnimalQuestion, TeamSide } from "@/lib/types";
 
@@ -413,19 +414,9 @@ export default function SpellingBattleClient() {
         })}
       </div>
 
-      <footer className="pointer-events-none z-10 bg-gradient-to-t from-black/80 to-transparent py-2 text-center text-xs tracking-widest text-white/60">
-        © {new Date().getFullYear()} Dewa Krishnadana
-      </footer>
+      <GameFooter />
 
-      {juice.floats.map((f) => (
-        <div
-          key={f.id}
-          className="pointer-events-none absolute z-[130] animate-rise font-display text-6xl font-bold"
-          style={{ left: f.x, top: f.y, color: f.color, textShadow: "0 6px 18px rgba(0,0,0,0.8)" }}
-        >
-          {f.text}
-        </div>
-      ))}
+      <FloatLayer floats={juice.floats} sizeClass="text-6xl" />
 
       {juice.flash ? <ScreenFlash color={juice.flash.color} trigger={juice.flash.id} /> : null}
 

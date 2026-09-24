@@ -17,6 +17,7 @@ import { useCountdown } from "@/lib/useCountdown";
 import { useKeyboardChoices, BUZZER_KEYS } from "@/lib/useKeyboardChoices";
 import { preloadImage } from "@/lib/preloadImage";
 import { SaveScoreDialog } from "@/components/SaveScoreDialog";
+import { TeamScoreBar, FloatLayer, TeamPanelHeader, GameFooter } from "@/components/gameParts";
 import {
   buildPictureQuestion,
   pictureByCategory,
@@ -250,21 +251,7 @@ export default function TebakGambarClient() {
         />
       </GameHeader>
 
-      {!solo ? (
-        <div className="relative z-20 flex h-16 w-full border-b-2 border-line bg-black/50">
-          <div className="flex flex-1 items-center justify-start border-r border-white/10 bg-gradient-to-r from-sky-500 to-blue-700 pl-6 font-display text-2xl text-white">
-            TEAM BLUE · {teams.blue}
-          </div>
-          <div className="flex flex-1 items-center justify-end bg-gradient-to-l from-rose-500 to-red-700 pr-6 font-display text-2xl text-white">
-            {teams.red} · TEAM RED
-          </div>
-        </div>
-      ) : (
-        <div className="relative z-20 flex h-16 w-full items-center justify-between border-b-2 border-line bg-black/50 px-6">
-          <span className="font-display text-2xl text-lime">🧑 LATIHAN MANDIRI</span>
-          <span className="font-display text-2xl text-gold">SKOR: {teams.blue}</span>
-        </div>
-      )}
+      <TeamScoreBar teams={teams} solo={solo} soloAccent="text-lime" />
 
       {/* Panel gambar (dipakai bersama kedua tim) */}
       <div className="relative z-20 flex flex-col items-center gap-2 border-b-2 border-line bg-black/40 py-3">
@@ -282,7 +269,6 @@ export default function TebakGambarClient() {
 
       <div className="relative flex flex-1 overflow-hidden">
         {((solo ? ["blue"] : ["blue", "red"]) as TeamSide[]).map((side) => {
-          const cfg = teamConfig(side);
           const f = feedback[side];
           const locked = answered[side];
           return (
@@ -298,12 +284,7 @@ export default function TebakGambarClient() {
                 }`}
               />
 
-              <div className="z-10 flex w-full items-center justify-between px-2">
-                <span className={`font-display text-xl ${cfg.text}`}>
-                  {solo ? "🧑 KAMU" : cfg.name}
-                </span>
-                <span className={`font-display text-4xl ${cfg.text}`}>{teams[side]}</span>
-              </div>
+              <TeamPanelHeader side={side} score={teams[side]} solo={solo} />
 
               <div className="z-10 grid w-full max-w-md grid-cols-2 gap-3">
                 {LETTERS.map((_, i) => {
@@ -350,20 +331,10 @@ export default function TebakGambarClient() {
           );
         })}
 
-        {juice.floats.map((f) => (
-          <div
-            key={f.id}
-            className="pointer-events-none absolute z-[130] animate-rise font-display text-5xl font-bold"
-            style={{ left: f.x, top: f.y, color: f.color, textShadow: "0 6px 18px rgba(0,0,0,0.8)" }}
-          >
-            {f.text}
-          </div>
-        ))}
+        <FloatLayer floats={juice.floats} />
       </div>
 
-      <footer className="pointer-events-none z-10 bg-gradient-to-t from-black/80 to-transparent py-2 text-center text-xs tracking-widest text-white/60">
-        © {new Date().getFullYear()} Dewa Krishnadana
-      </footer>
+      <GameFooter />
 
       {juice.flash ? <ScreenFlash color={juice.flash.color} trigger={juice.flash.id} /> : null}
 

@@ -18,6 +18,13 @@ import { useSpeechRecognition } from "@/lib/useSpeechRecognition";
 import { SaveScoreDialog } from "@/components/SaveScoreDialog";
 import { usePlatformData } from "@/lib/store";
 import {
+  TeamScoreBar,
+  FloatLayer,
+  TeamPanelHeader,
+  GameFooter,
+  SoloScoreCard,
+} from "@/components/gameParts";
+import {
   buildPronounceWord,
   judgePronunciation,
   type PronounceVerdict,
@@ -256,21 +263,7 @@ export default function PronounceClient() {
         />
       </GameHeader>
 
-      {!solo ? (
-        <div className="relative z-20 flex h-16 w-full border-b-2 border-line bg-black/50">
-          <div className="flex flex-1 items-center justify-start border-r border-white/10 bg-gradient-to-r from-sky-500 to-blue-700 pl-6 font-display text-2xl text-white">
-            TEAM BLUE · {teams.blue}
-          </div>
-          <div className="flex flex-1 items-center justify-end bg-gradient-to-l from-rose-500 to-red-700 pr-6 font-display text-2xl text-white">
-            {teams.red} · TEAM RED
-          </div>
-        </div>
-      ) : (
-        <div className="relative z-20 flex h-16 w-full items-center justify-between border-b-2 border-line bg-black/50 px-6">
-          <span className="font-display text-2xl text-pink">🧑 LATIHAN MANDIRI</span>
-          <span className="font-display text-2xl text-gold">SKOR: {teams.blue}</span>
-        </div>
-      )}
+      <TeamScoreBar teams={teams} solo={solo} soloAccent="text-pink" />
 
       {micError && phase === "playing" ? (
         <div className="relative z-20 border-b border-red/30 bg-red/10 px-6 py-2 text-center text-sm font-semibold text-red">
@@ -280,7 +273,6 @@ export default function PronounceClient() {
 
       <div className="relative flex flex-1 overflow-hidden">
         {sides.map((side) => {
-          const cfg = teamConfig(side);
           const word = words[side];
           const res = results[side];
           const isRecording = activeSide === side && listening;
@@ -300,12 +292,7 @@ export default function PronounceClient() {
                 }`}
               />
 
-              <div className="z-10 flex w-full items-center justify-between px-2">
-                <span className={`font-display text-xl ${cfg.text}`}>
-                  {solo ? "🧑 KAMU" : cfg.name}
-                </span>
-                <span className={`font-display text-4xl ${cfg.text}`}>{teams[side]}</span>
-              </div>
+              <TeamPanelHeader side={side} score={teams[side]} solo={solo} />
 
               {/* Kartu kata */}
               <div className="z-10 w-full max-w-xl animate-slide-up rounded-3xl border-2 border-pink/30 bg-black/50 p-6 text-center shadow-[0_10px_40px_rgba(0,0,0,0.5)]">
@@ -407,20 +394,10 @@ export default function PronounceClient() {
           );
         })}
 
-        {juice.floats.map((f) => (
-          <div
-            key={f.id}
-            className="pointer-events-none absolute z-[130] animate-rise font-display text-5xl font-bold"
-            style={{ left: f.x, top: f.y, color: f.color, textShadow: "0 6px 18px rgba(0,0,0,0.8)" }}
-          >
-            {f.text}
-          </div>
-        ))}
+        <FloatLayer floats={juice.floats} />
       </div>
 
-      <footer className="pointer-events-none z-10 bg-gradient-to-t from-black/80 to-transparent py-2 text-center text-xs tracking-widest text-white/60">
-        © {new Date().getFullYear()} Dewa Krishnadana
-      </footer>
+      <GameFooter />
 
       {juice.flash ? <ScreenFlash color={juice.flash.color} trigger={juice.flash.id} /> : null}
 
@@ -515,10 +492,7 @@ export default function PronounceClient() {
               >
                 LATIHAN SELESAI!
               </h1>
-              <div className="mb-6 animate-glow rounded-3xl border-2 border-gold/40 bg-gold/10 px-16 py-6 text-center">
-                <p className="text-sm tracking-widest text-muted uppercase">Skor Kamu</p>
-                <p className="font-display text-8xl text-gold">{teams.blue}</p>
-              </div>
+              <SoloScoreCard score={teams.blue} />
             </>
           ) : (
             <>
