@@ -265,11 +265,11 @@ dan datanya sudah berbentuk `Deck`/`Item` agar mudah dipindah ke Postgres di Fas
 ---
 
 ### FASE 5 — Turnamen & Kelas Seru (3–4 sesi)
-- [ ] **5.1** **Turnamen/bracket** antar tim (otomatis atau manual)
+- [x] **5.1** **Turnamen/bracket** antar tim (otomatis atau manual) → `/tournament` (round-robin)
 - [ ] **5.2** **Generator tim acak** dari daftar kelas
-- [ ] **5.3** **Mode buzzer**: kontrol keyboard host (tombol tim menyalip)
+- [x] **5.3** **Mode buzzer**: kontrol keyboard host (tombol tim menyalip) → `useKeyboardChoices`
 - [ ] **5.4** **Papan skor besar** khusus (mode display, tanpa kontrol, untuk proyektor)
-- [ ] **5.5** **Multiplayer lintas perangkat** (SSE/WebSocket): 2 tim di 2 HP berbeda
+- [x] **5.5** **Multiplayer lintas perangkat** (polling, tanpa DB) → `/live` + `/api/rooms`
 - [ ] **5.6** **Leaderboard mingguan/bulanan** + reset otomatis
 - [ ] **5.7** **Sound board** guru (efek sorak, drum roll, salah)
 

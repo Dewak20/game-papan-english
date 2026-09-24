@@ -25,6 +25,8 @@ Dibangun dengan **Next.js 16 (App Router) + TypeScript + Tailwind CSS v4**.
 | `/tebak-gambar`      | Tebak Gambar      | Lihat gambar, pilih nama Inggris (4 opsi)             |
 | `/rank`              | Cek Ranking       | Cek ranking & nilai siswa berdasarkan NISN             |
 | `/leaderboard`       | Papan Peringkat   | Skor terbaik dari sesi Latihan Mandiri (live cloud)   |
+| `/live`              | Ruang Kelas       | Multiplayer lintas perangkat: papan besar jadi server, HP siswa kirim skor |
+| `/tournament`        | Turnamen Kelas    | Turnamen round-robin antar tim; klasemen otomatis     |
 | `/settings`          | Panel Guru        | Kelola data siswa & bank soal (dilindungi PIN)         |
 | `/admin`             | Admin             | Status cloud, sinkronisasi, cadangan data, tautan/QR siswa |
 
@@ -43,6 +45,27 @@ Setiap game punya **dua tipe** yang bisa dipilih di menu:
   siswa tidak bisa mengubah data.
 - **Ingat nama pemain** — saat menyimpan skor, nama terakhir otomatis terisi.
 - Kontras tinggi & tombol besar, dioptimalkan untuk layar kelas.
+
+## 📡 Ruang Kelas (Multiplayer Lintas Perangkat)
+
+Buka **`/live`** di laptop guru (papan besar) lalu tekan **BUKA RUANG**. Muncul kode
+4 huruf (mis. `K7P2`) dan tautan. Siswa membuka tautan/kode itu di HP mereka:
+
+- **Guru (host)** melihat klasemen besar yang menyegarkan otomatis setiap 2 detik,
+  bisa **+1/+5/+10**, mengeluarkan tim, mulai/selesai, dan reset skor.
+- **Siswa** cukup memasukkan nama lalu menekan tombol **+1/+5/+10** saat timnya
+  menjawab benar — skor langsung muncul di papan besar.
+
+Tanpa aplikasi tambahan dan **tanpa database**: ruang disimpan di memori server
+(`src/lib/roomStore.ts`), jadi cukup satu laptop sebagai server di LAN
+(`next start`, siswa akses `http://<IP-guru>:3000/live`).
+
+## 🏆 Turnamen Kelas
+
+Buka **`/tournament`** untuk menyusun turnamen **round-robin** antar tim: pilih tim,
+pilih game (boleh lebih dari satu, akan dirotasi), atur jumlah ronde & bobot poin
+(menang/imbang/kalah). Klasemen (M/S/K, selisih skor, poin) dihitung otomatis, dan
+juara muncul saat semua laga selesai. Tersimpan di perangkat (`localStorage`).
 
 ## 🎨 Identitas Visual Tiap Game
 
@@ -204,6 +227,11 @@ src/
    ├─ questions.ts            # bank soal present continuous
    ├─ students.ts             # data siswa + logika ranking
    ├─ games.ts                # daftar game (judul, aksen, skill)
+   ├─ tournament.ts           # mesin turnamen round-robin (murni)
+   ├─ tournamentStore.ts      # store turnamen (localStorage)
+   ├─ room.ts                 # logika Ruang Kelas (murni)
+   ├─ roomStore.ts            # penyimpanan ruang in-memory (server-only)
+   ├─ useLiveRoom.ts          # hook polling Ruang Kelas (client)
    ├─ useJuice.ts             # state efek (teks melayang, burst, flash)
    ├─ useSound.ts             # sistem suara (Web Audio, arpeggio)
    ├─ audio.ts                # AudioContext bersama (SFX + musik)

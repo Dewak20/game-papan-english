@@ -104,6 +104,18 @@ export default function HomePage() {
       <div className="mb-8 flex justify-end gap-3">
         <AudioToggles />
         <Link
+          href="/live"
+          className="focus-ring flex items-center gap-2 rounded-xl border border-line bg-white/5 px-5 py-2.5 text-sm font-semibold text-muted transition-colors hover:border-green/60 hover:text-green"
+        >
+          📡 Ruang Kelas
+        </Link>
+        <Link
+          href="/tournament"
+          className="focus-ring flex items-center gap-2 rounded-xl border border-line bg-white/5 px-5 py-2.5 text-sm font-semibold text-muted transition-colors hover:border-gold/60 hover:text-gold"
+        >
+          🏆 Turnamen
+        </Link>
+        <Link
           href="/leaderboard"
           className="focus-ring flex items-center gap-2 rounded-xl border border-line bg-white/5 px-5 py-2.5 text-sm font-semibold text-muted transition-colors hover:border-gold/60 hover:text-gold"
         >
