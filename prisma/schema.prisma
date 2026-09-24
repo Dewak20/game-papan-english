@@ -1,0 +1,153 @@
+// Skema database Battle Learning Platform (PostgreSQL / Supabase).
+// Catatan Prisma 7: koneksi dikonfigurasi di `prisma.config.ts`, bukan di sini.
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+/// Kelas (rombongan belajar).
+model Class {
+  id        String    @id @default(cuid())
+  name      String
+  grade     String?
+  homeroom  String?
+  createdAt DateTime  @default(now())
+  students  Student[]
+
+  @@map("classes")
+}
+
+/// Siswa. `nisn` unik dan dipakai sebagai identitas login ringan.
+model Student {
+  id          String   @id @default(cuid())
+  nisn        String   @unique
+  name        String
+  classId     String?
+  class       Class?   @relation(fields: [classId], references: [id], onDelete: SetNull)
+  avatar      String?
+  totalXp     Int      @default(0)
+  level       Int      @default(1)
+  /// Nilai awal hasil migrasi data lama (Google Sheets).
+  legacyScore Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  results      Result[]
+  achievements Achievement[]
+
+  @@index([classId])
+  @@map("students")
+}
+
+/// Guru (pengelola Panel Guru).
+model Teacher {
+  id        String   @id @default(cuid())
+  name      String
+  pin       String
+  createdAt DateTime @default(now())
+
+  @@map("teachers")
+}
+
+/// Kumpulan soal (deck) yang bisa dipakai game mana pun.
+model Deck {
+  id        String   @id @default(cuid())
+  title     String
+  skill     String
+  level     String?
+  tags      String[] @default([])
+  ownerId   String?
+  isPublic  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  items     Item[]
+
+  @@map("decks")
+}
+
+/// Satu butir soal dalam sebuah deck.
+model Item {
+  id         String   @id @default(cuid())
+  deckId     String
+  deck       Deck     @relation(fields: [deckId], references: [id], onDelete: Cascade)
+  type       String
+  prompt     String
+  answer     String
+  options    String[] @default([])
+  media      String?
+  hint       String?
+  difficulty String?
+
+  @@index([deckId])
+  @@map("items")
+}
+
+/// Satu sesi permainan (mis. Word Battle mode duel di kelas 7A).
+model Session {
+  id        String    @id @default(cuid())
+  gameSlug  String
+  mode      String
+  classId   String?
+  hostId    String?
+  startedAt DateTime  @default(now())
+  endedAt   DateTime?
+  results   Result[]
+
+  @@index([gameSlug, startedAt])
+  @@map("sessions")
+}
+
+/// Hasil akhir satu pemain dalam satu sesi.
+model Result {
+  id         String   @id @default(cuid())
+  sessionId  String?
+  session    Session? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  studentId  String?
+  student    Student? @relation(fields: [studentId], references: [id], onDelete: SetNull)
+  gameSlug   String
+  playerName String
+  score      Int
+  accuracy   Float?
+  maxCombo   Int?
+  speedAvg   Float?
+  /// id unik dari klien → membuat sinkronisasi idempoten (tidak dobel saat retry).
+  clientId   String?  @unique
+  createdAt  DateTime @default(now())
+
+  answers Answer[]
+
+  @@index([gameSlug, score])
+  @@index([studentId])
+  @@index([createdAt])
+  @@map("results")
+}
+
+/// Jawaban per butir soal — untuk analitik ("siswa X lemah di skill Y").
+model Answer {
+  id          String  @id @default(cuid())
+  resultId    String
+  result      Result  @relation(fields: [resultId], references: [id], onDelete: Cascade)
+  itemId      String?
+  correct     Boolean
+  ms          Int?
+  answerGiven String?
+
+  @@index([resultId])
+  @@map("answers")
+}
+
+/// Lencana / pencapaian siswa.
+model Achievement {
+  id        String   @id @default(cuid())
+  studentId String
+  student   Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  code      String
+  earnedAt  DateTime @default(now())
+
+  @@unique([studentId, code])
+  @@map("achievements")
+}

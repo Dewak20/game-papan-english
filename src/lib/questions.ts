@@ -1,0 +1,103 @@
+import type { ContinuousQuestion } from "./types";
+
+/**
+ * Bank soal Present Continuous — sudah dibersihkan dari duplikat
+ * yang ada di script.js versi lama (soal berulang dihapus).
+ */
+export const continuousQuestions: ContinuousQuestion[] = [
+  // --- LEVEL 1: TO BE (IS / AM / ARE) ---
+  { q: "SHE ___ READING", opts: ["IS", "ARE"], ans: 0 },
+  { q: "THEY ___ PLAYING", opts: ["IS", "ARE"], ans: 1 },
+  { q: "I ___ COOKING", opts: ["AM", "IS"], ans: 0 },
+  { q: "WE ___ STUDYING", opts: ["AM", "ARE"], ans: 1 },
+  { q: "IT ___ RAINING", opts: ["IS", "ARE"], ans: 0 },
+  { q: "YOU ___ SLEEPING", opts: ["IS", "ARE"], ans: 1 },
+  { q: "THE CAT ___ JUMPING", opts: ["IS", "ARE"], ans: 0 },
+  { q: "BIRDS ___ FLYING", opts: ["IS", "ARE"], ans: 1 },
+  { q: "MY DAD ___ WORKING", opts: ["IS", "ARE"], ans: 0 },
+  { q: "THE BOYS ___ RUNNING", opts: ["IS", "ARE"], ans: 1 },
+  { q: "MY TEACHER ___ TALKING", opts: ["IS", "ARE"], ans: 0 },
+  { q: "THE DOGS ___ BARKING", opts: ["IS", "ARE"], ans: 1 },
+  { q: "EVERYONE ___ SMILING", opts: ["IS", "ARE"], ans: 0 },
+  { q: "NOBODY ___ LISTENING", opts: ["IS", "ARE"], ans: 0 },
+  { q: "TOM AND JERRY ___", opts: ["IS EATING", "ARE EATING"], ans: 1 },
+  { q: "TOM AND JERRY ___", opts: ["IS FIGHTING", "ARE FIGHTING"], ans: 1 },
+  { q: "THE POLICE ___", opts: ["IS COMING", "ARE COMING"], ans: 1 },
+  { q: "EVERYONE ___ WATCHING", opts: ["IS", "ARE"], ans: 0 },
+
+  // --- LEVEL 2: DOUBLE CONSONANT (DOUBLE THE LETTER) ---
+  { q: "HE IS ___ (RUN)", opts: ["RUNING", "RUNNING"], ans: 1 },
+  { q: "SHE IS ___ (SIT)", opts: ["SITTING", "SITING"], ans: 0 },
+  { q: "THEY ARE ___ (SWIM)", opts: ["SWIMING", "SWIMMING"], ans: 1 },
+  { q: "IT IS ___ (STOP)", opts: ["STOPPING", "STOPING"], ans: 0 },
+  { q: "HE IS ___ (CUT)", opts: ["CUTTING", "CUTING"], ans: 0 },
+  { q: "WE ARE ___ (PUT)", opts: ["PUTING", "PUTTING"], ans: 1 },
+  { q: "ARE YOU ___? (GET)", opts: ["GETTING", "GETING"], ans: 0 },
+  { q: "HE IS ___ (DIG)", opts: ["DIGGING", "DIGING"], ans: 0 },
+  { q: "WE ARE ___ (WIN)", opts: ["WINNING", "WINING"], ans: 0 },
+  { q: "START ___ NOW! (CLAP)", opts: ["CLAPING", "CLAPPING"], ans: 1 },
+  { q: "STOP ___ (CHAT)", opts: ["CHATTING", "CHATING"], ans: 0 },
+  { q: "THEY ARE ___ (PLAN)", opts: ["PLANNING", "PLANING"], ans: 0 },
+  { q: "SHE IS ___ (SHOP)", opts: ["SHOPPING", "SHOPING"], ans: 0 },
+
+  // --- LEVEL 3: DROP THE 'E' ---
+  { q: "WE ARE ___ (MAKE)", opts: ["MAKING", "MAKEING"], ans: 0 },
+  { q: "I AM ___ (WRITE)", opts: ["WRITING", "WRITTING"], ans: 0 },
+  { q: "SHE IS ___ (DANCE)", opts: ["DANCING", "DANCEING"], ans: 0 },
+  { q: "ARE YOU ___? (COME)", opts: ["COMMING", "COMING"], ans: 1 },
+  { q: "HE IS ___ (DRIVE)", opts: ["DRIVING", "DRIVEING"], ans: 0 },
+  { q: "THEY ARE ___ (RIDE)", opts: ["RIDING", "RIDDING"], ans: 0 },
+  { q: "WE ARE ___ (TAKE)", opts: ["TAKING", "TAKEING"], ans: 0 },
+  { q: "SHE IS ___ (GIVE)", opts: ["GIVEING", "GIVING"], ans: 1 },
+  { q: "I AM ___ (USE)", opts: ["USING", "USEING"], ans: 0 },
+  { q: "HE IS ___ (HAVE)", opts: ["HAVING", "HAVEING"], ans: 0 },
+  { q: "ARE YOU ___? (JOKE)", opts: ["JOKING", "JOKKING"], ans: 0 },
+  { q: "THEY ARE ___ (MOVE)", opts: ["MOVING", "MOVEING"], ans: 0 },
+  { q: "SHE IS ___ (SMILE)", opts: ["SMILLING", "SMILING"], ans: 1 },
+
+  // --- LEVEL 4: INTERROGATIVE (PERTANYAAN) ---
+  { q: "___ YOU LISTENING?", opts: ["IS", "ARE"], ans: 1 },
+  { q: "___ SHE CRYING?", opts: ["IS", "ARE"], ans: 0 },
+  { q: "___ THEY COMING?", opts: ["IS", "ARE"], ans: 1 },
+  { q: "___ IT EATING?", opts: ["IS", "AM"], ans: 0 },
+  { q: "WHAT ___ YOU DOING?", opts: ["IS", "ARE"], ans: 1 },
+  { q: "WHERE ___ HE GOING?", opts: ["IS", "ARE"], ans: 0 },
+  { q: "WHY ___ WE WAITING?", opts: ["IS", "ARE"], ans: 1 },
+  { q: "WHO ___ CALLING?", opts: ["IS", "ARE"], ans: 0 },
+  { q: "___ I DREAMING?", opts: ["AM", "IS"], ans: 0 },
+  { q: "___ THE DOG BARKING?", opts: ["IS", "ARE"], ans: 0 },
+  { q: "___ YOUR MOM COOKING?", opts: ["IS", "ARE"], ans: 0 },
+  { q: "___ THE STUDENTS WRITING?", opts: ["IS", "ARE"], ans: 1 },
+
+  // --- LEVEL 5: NEGATIVE ---
+  { q: "HE ___ NOT PLAYING", opts: ["IS", "ARE"], ans: 0 },
+  { q: "THEY ___ NOT TALKING", opts: ["IS", "ARE"], ans: 1 },
+  { q: "I ___ NOT JOKING", opts: ["AM", "IS"], ans: 0 },
+  { q: "WE ___ NOT GOING", opts: ["AM", "ARE"], ans: 1 },
+  { q: "SHE ___ NOT SMILING", opts: ["IS", "ARE"], ans: 0 },
+  { q: "IT ___ NOT RAINING", opts: ["IS", "ARE"], ans: 0 },
+  { q: "YOU ___ NOT LISTENING", opts: ["IS", "ARE"], ans: 1 },
+  { q: "MY PHONE ___ RINGING", opts: ["ISN'T", "AREN'T"], ans: 0 },
+  { q: "WE ___ WATCHING TV", opts: ["ISN'T", "AREN'T"], ans: 1 },
+
+  // --- LEVEL 6: FULL SENTENCE & CONTEXT ---
+  { q: "LOOK! THE BUS ___", opts: ["IS COMING", "ARE COMING"], ans: 0 },
+  { q: "LISTEN! SOMEONE ___", opts: ["IS SINGING", "ARE SINGING"], ans: 0 },
+  { q: "NOW, WE ___", opts: ["ARE LEARNING", "IS LEARNING"], ans: 0 },
+  { q: "AT THE MOMENT, I ___", opts: ["AM READING", "IS READING"], ans: 0 },
+  { q: "THE BABY ___", opts: ["IS SLEEPING", "SLEEPING"], ans: 0 },
+  { q: "MY FRIENDS ___ HERE", opts: ["IS STAYING", "ARE STAYING"], ans: 1 },
+  { q: "STOP ___ NOISE!", opts: ["MAKING", "MAKE"], ans: 0 },
+  { q: "START ___ NOW!", opts: ["WRITING", "WRITE"], ans: 0 },
+  { q: "THE SUN IS ___", opts: ["SHINNING", "SHINING"], ans: 1 },
+  { q: "THEY ARE ___ A LIE", opts: ["TELLING", "TELING"], ans: 0 },
+  { q: "PLEASE BE QUIET! I ___", opts: ["AM WORKING", "IS WORKING"], ans: 0 },
+  { q: "LOOK AT HIM! HE ___", opts: ["IS JUMPING", "ARE JUMPING"], ans: 0 },
+  { q: "WHERE ARE THEY ___?", opts: ["GO", "GOING"], ans: 1 },
+  { q: "WHAT IS SHE ___?", opts: ["DOING", "DO"], ans: 0 },
+  { q: "IS IT ___ OUTSIDE?", opts: ["SNOWING", "SNOW"], ans: 0 },
+  { q: "ARE WE ___ SOON?", opts: ["LEAVING", "LEAVE"], ans: 0 },
+  { q: "I AM ___ A SANDWICH", opts: ["EATING", "EATTING"], ans: 0 },
+  { q: "SHE IS ___ HER HOMEWORK", opts: ["DOING", "DOEING"], ans: 0 },
+  { q: "THEY ARE ___ WATER", opts: ["DRINKING", "DRINKKING"], ans: 0 },
+];

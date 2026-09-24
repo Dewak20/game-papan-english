@@ -1,0 +1,395 @@
+/**
+ * Bank kosakata Inggris ↔ Indonesia untuk game Vocabulary Match.
+ * Dikelompokkan per kategori agar pilihan pengecoh (distractor) tetap masuk akal.
+ *
+ * Catatan: setiap kata Inggris hanya muncul SEKALI di seluruh bank agar
+ * tidak ada soal yang ambigu (mis. "orange" = jeruk vs oranye).
+ */
+
+interface RawPair {
+  en: string;
+  id: string;
+}
+
+const BANK: Record<string, RawPair[]> = {
+  Hewan: [
+    { en: "cat", id: "Kucing" },
+    { en: "dog", id: "Anjing" },
+    { en: "chicken", id: "Ayam" },
+    { en: "duck", id: "Bebek" },
+    { en: "cow", id: "Sapi" },
+    { en: "goat", id: "Kambing" },
+    { en: "sheep", id: "Domba" },
+    { en: "horse", id: "Kuda" },
+    { en: "pig", id: "Babi" },
+    { en: "rabbit", id: "Kelinci" },
+    { en: "lion", id: "Singa" },
+    { en: "tiger", id: "Harimau" },
+    { en: "elephant", id: "Gajah" },
+    { en: "giraffe", id: "Jerapah" },
+    { en: "monkey", id: "Monyet" },
+    { en: "bear", id: "Beruang" },
+    { en: "wolf", id: "Serigala" },
+    { en: "deer", id: "Rusa" },
+    { en: "kangaroo", id: "Kanguru" },
+    { en: "panda", id: "Panda" },
+    { en: "camel", id: "Unta" },
+    { en: "snake", id: "Ular" },
+    { en: "crocodile", id: "Buaya" },
+    { en: "frog", id: "Katak" },
+    { en: "fish", id: "Ikan" },
+    { en: "shark", id: "Hiu" },
+    { en: "whale", id: "Paus" },
+    { en: "dolphin", id: "Lumba-lumba" },
+    { en: "octopus", id: "Gurita" },
+    { en: "crab", id: "Kepiting" },
+    { en: "bird", id: "Burung" },
+    { en: "eagle", id: "Elang" },
+    { en: "owl", id: "Burung hantu" },
+    { en: "parrot", id: "Beo" },
+    { en: "penguin", id: "Pinguin" },
+    { en: "butterfly", id: "Kupu-kupu" },
+    { en: "bee", id: "Lebah" },
+    { en: "ant", id: "Semut" },
+    { en: "mosquito", id: "Nyamuk" },
+    { en: "spider", id: "Laba-laba" },
+    { en: "turtle", id: "Kura-kura" },
+    { en: "mouse", id: "Tikus" },
+  ],
+  Buah: [
+    { en: "apple", id: "Apel" },
+    { en: "banana", id: "Pisang" },
+    { en: "orange", id: "Jeruk" },
+    { en: "mango", id: "Mangga" },
+    { en: "grape", id: "Anggur" },
+    { en: "watermelon", id: "Semangka" },
+    { en: "pineapple", id: "Nanas" },
+    { en: "strawberry", id: "Stroberi" },
+    { en: "papaya", id: "Pepaya" },
+    { en: "avocado", id: "Alpukat" },
+    { en: "coconut", id: "Kelapa" },
+    { en: "durian", id: "Durian" },
+    { en: "rambutan", id: "Rambutan" },
+    { en: "lemon", id: "Lemon" },
+    { en: "cherry", id: "Ceri" },
+    { en: "pear", id: "Pir" },
+    { en: "melon", id: "Melon" },
+    { en: "peach", id: "Persik" },
+  ],
+  Makanan: [
+    { en: "rice", id: "Nasi" },
+    { en: "bread", id: "Roti" },
+    { en: "egg", id: "Telur" },
+    { en: "milk", id: "Susu" },
+    { en: "water", id: "Air" },
+    { en: "coffee", id: "Kopi" },
+    { en: "tea", id: "Teh" },
+    { en: "sugar", id: "Gula" },
+    { en: "salt", id: "Garam" },
+    { en: "meat", id: "Daging" },
+    { en: "noodle", id: "Mie" },
+    { en: "soup", id: "Sup" },
+    { en: "cake", id: "Kue" },
+    { en: "chocolate", id: "Coklat" },
+    { en: "cheese", id: "Keju" },
+    { en: "butter", id: "Mentega" },
+    { en: "honey", id: "Madu" },
+    { en: "juice", id: "Jus" },
+    { en: "candy", id: "Permen" },
+    { en: "pepper", id: "Lada" },
+    { en: "oil", id: "Minyak" },
+    { en: "flour", id: "Tepung" },
+  ],
+  Warna: [
+    { en: "red", id: "Merah" },
+    { en: "blue", id: "Biru" },
+    { en: "green", id: "Hijau" },
+    { en: "yellow", id: "Kuning" },
+    { en: "black", id: "Hitam" },
+    { en: "white", id: "Putih" },
+    { en: "purple", id: "Ungu" },
+    { en: "pink", id: "Merah muda" },
+    { en: "brown", id: "Cokelat" },
+    { en: "gray", id: "Abu-abu" },
+    { en: "gold", id: "Emas" },
+    { en: "silver", id: "Perak" },
+  ],
+  Angka: [
+    { en: "one", id: "Satu" },
+    { en: "two", id: "Dua" },
+    { en: "three", id: "Tiga" },
+    { en: "four", id: "Empat" },
+    { en: "five", id: "Lima" },
+    { en: "six", id: "Enam" },
+    { en: "seven", id: "Tujuh" },
+    { en: "eight", id: "Delapan" },
+    { en: "nine", id: "Sembilan" },
+    { en: "ten", id: "Sepuluh" },
+    { en: "eleven", id: "Sebelas" },
+    { en: "twelve", id: "Dua belas" },
+    { en: "twenty", id: "Dua puluh" },
+    { en: "fifty", id: "Lima puluh" },
+    { en: "hundred", id: "Seratus" },
+    { en: "thousand", id: "Seribu" },
+  ],
+  "Anggota Tubuh": [
+    { en: "head", id: "Kepala" },
+    { en: "hand", id: "Tangan" },
+    { en: "foot", id: "Kaki" },
+    { en: "eye", id: "Mata" },
+    { en: "nose", id: "Hidung" },
+    { en: "mouth", id: "Mulut" },
+    { en: "ear", id: "Telinga" },
+    { en: "hair", id: "Rambut" },
+    { en: "heart", id: "Jantung" },
+    { en: "finger", id: "Jari" },
+    { en: "knee", id: "Lutut" },
+    { en: "shoulder", id: "Bahu" },
+    { en: "tooth", id: "Gigi" },
+    { en: "tongue", id: "Lidah" },
+    { en: "neck", id: "Leher" },
+    { en: "back", id: "Punggung" },
+    { en: "stomach", id: "Perut" },
+    { en: "skin", id: "Kulit" },
+    { en: "blood", id: "Darah" },
+    { en: "bone", id: "Tulang" },
+  ],
+  "Kata Kerja": [
+    { en: "run", id: "Berlari" },
+    { en: "eat", id: "Makan" },
+    { en: "sleep", id: "Tidur" },
+    { en: "drink", id: "Minum" },
+    { en: "walk", id: "Berjalan" },
+    { en: "jump", id: "Melompat" },
+    { en: "fly", id: "Terbang" },
+    { en: "swim", id: "Berenang" },
+    { en: "write", id: "Menulis" },
+    { en: "read", id: "Membaca" },
+    { en: "speak", id: "Berbicara" },
+    { en: "listen", id: "Mendengarkan" },
+    { en: "sing", id: "Menyanyi" },
+    { en: "dance", id: "Menari" },
+    { en: "play", id: "Bermain" },
+    { en: "study", id: "Belajar" },
+    { en: "teach", id: "Mengajar" },
+    { en: "work", id: "Bekerja" },
+    { en: "cook", id: "Memasak" },
+    { en: "clean", id: "Membersihkan" },
+    { en: "buy", id: "Membeli" },
+    { en: "sell", id: "Menjual" },
+    { en: "open", id: "Membuka" },
+    { en: "close", id: "Menutup" },
+    { en: "push", id: "Mendorong" },
+    { en: "pull", id: "Menarik" },
+    { en: "cut", id: "Memotong" },
+    { en: "draw", id: "Menggambar" },
+    { en: "drive", id: "Mengemudi" },
+    { en: "climb", id: "Memanjat" },
+    { en: "throw", id: "Melempar" },
+    { en: "catch", id: "Menangkap" },
+    { en: "laugh", id: "Tertawa" },
+    { en: "cry", id: "Menangis" },
+    { en: "think", id: "Berpikir" },
+    { en: "love", id: "Mencintai" },
+    { en: "help", id: "Menolong" },
+    { en: "wash", id: "Mencuci" },
+    { en: "borrow", id: "Meminjam" },
+    { en: "forget", id: "Melupakan" },
+  ],
+  "Kata Sifat": [
+    { en: "happy", id: "Senang" },
+    { en: "sad", id: "Sedih" },
+    { en: "angry", id: "Marah" },
+    { en: "tired", id: "Lelah" },
+    { en: "hungry", id: "Lapar" },
+    { en: "thirsty", id: "Haus" },
+    { en: "brave", id: "Berani" },
+    { en: "smart", id: "Pintar" },
+    { en: "funny", id: "Lucu" },
+    { en: "good", id: "Bagus" },
+    { en: "bad", id: "Buruk" },
+    { en: "kind", id: "Baik hati" },
+    { en: "strong", id: "Kuat" },
+    { en: "weak", id: "Lemah" },
+    { en: "fast", id: "Cepat" },
+    { en: "slow", id: "Lambat" },
+    { en: "big", id: "Besar" },
+    { en: "small", id: "Kecil" },
+    { en: "tall", id: "Tinggi" },
+    { en: "short", id: "Pendek" },
+    { en: "old", id: "Tua" },
+    { en: "young", id: "Muda" },
+    { en: "rich", id: "Kaya" },
+    { en: "poor", id: "Miskin" },
+    { en: "beautiful", id: "Cantik" },
+    { en: "ugly", id: "Jelek" },
+    { en: "tidy", id: "Rapi" },
+    { en: "dirty", id: "Kotor" },
+    { en: "hot", id: "Panas" },
+    { en: "cold", id: "Dingin" },
+    { en: "expensive", id: "Mahal" },
+    { en: "cheap", id: "Murah" },
+    { en: "difficult", id: "Sulit" },
+    { en: "easy", id: "Mudah" },
+    { en: "quiet", id: "Sunyi" },
+    { en: "loud", id: "Keras" },
+    { en: "new", id: "Baru" },
+    { en: "full", id: "Penuh" },
+    { en: "empty", id: "Kosong" },
+    { en: "wet", id: "Basah" },
+    { en: "dry", id: "Kering" },
+  ],
+  Benda: [
+    { en: "table", id: "Meja" },
+    { en: "chair", id: "Kursi" },
+    { en: "book", id: "Buku" },
+    { en: "pen", id: "Pulpen" },
+    { en: "pencil", id: "Pensil" },
+    { en: "bag", id: "Tas" },
+    { en: "door", id: "Pintu" },
+    { en: "window", id: "Jendela" },
+    { en: "clock", id: "Jam" },
+    { en: "phone", id: "Telepon" },
+    { en: "money", id: "Uang" },
+    { en: "shirt", id: "Kemeja" },
+    { en: "shoe", id: "Sepatu" },
+    { en: "hat", id: "Topi" },
+    { en: "ball", id: "Bola" },
+    { en: "key", id: "Kunci" },
+    { en: "box", id: "Kotak" },
+    { en: "cup", id: "Cangkir" },
+    { en: "plate", id: "Piring" },
+    { en: "spoon", id: "Sendok" },
+    { en: "fork", id: "Garpu" },
+    { en: "knife", id: "Pisau" },
+    { en: "bottle", id: "Botol" },
+    { en: "umbrella", id: "Payung" },
+    { en: "mirror", id: "Cermin" },
+    { en: "lamp", id: "Lampu" },
+    { en: "pillow", id: "Bantal" },
+    { en: "blanket", id: "Selimut" },
+    { en: "towel", id: "Handuk" },
+    { en: "soap", id: "Sabun" },
+    { en: "broom", id: "Sapu" },
+    { en: "needle", id: "Jarum" },
+    { en: "ring", id: "Cincin" },
+    { en: "glasses", id: "Kacamata" },
+    { en: "wallet", id: "Dompet" },
+  ],
+  Tempat: [
+    { en: "school", id: "Sekolah" },
+    { en: "house", id: "Rumah" },
+    { en: "market", id: "Pasar" },
+    { en: "hospital", id: "Rumah sakit" },
+    { en: "beach", id: "Pantai" },
+    { en: "mountain", id: "Gunung" },
+    { en: "river", id: "Sungai" },
+    { en: "city", id: "Kota" },
+    { en: "village", id: "Desa" },
+    { en: "road", id: "Jalan" },
+    { en: "park", id: "Taman" },
+    { en: "library", id: "Perpustakaan" },
+    { en: "mosque", id: "Masjid" },
+    { en: "church", id: "Gereja" },
+    { en: "airport", id: "Bandara" },
+    { en: "station", id: "Stasiun" },
+    { en: "office", id: "Kantor" },
+    { en: "kitchen", id: "Dapur" },
+    { en: "bedroom", id: "Kamar tidur" },
+    { en: "bathroom", id: "Kamar mandi" },
+    { en: "bridge", id: "Jembatan" },
+    { en: "field", id: "Lapangan" },
+    { en: "zoo", id: "Kebun binatang" },
+    { en: "museum", id: "Museum" },
+  ],
+  Keluarga: [
+    { en: "father", id: "Ayah" },
+    { en: "mother", id: "Ibu" },
+    { en: "brother", id: "Saudara laki-laki" },
+    { en: "sister", id: "Saudara perempuan" },
+    { en: "grandfather", id: "Kakek" },
+    { en: "grandmother", id: "Nenek" },
+    { en: "uncle", id: "Paman" },
+    { en: "aunt", id: "Bibi" },
+    { en: "cousin", id: "Sepupu" },
+    { en: "son", id: "Anak laki-laki" },
+    { en: "daughter", id: "Anak perempuan" },
+    { en: "family", id: "Keluarga" },
+    { en: "parents", id: "Orang tua" },
+    { en: "husband", id: "Suami" },
+    { en: "wife", id: "Istri" },
+    { en: "nephew", id: "Keponakan" },
+  ],
+  Sekolah: [
+    { en: "teacher", id: "Guru" },
+    { en: "student", id: "Siswa" },
+    { en: "classroom", id: "Ruang kelas" },
+    { en: "exam", id: "Ujian" },
+    { en: "homework", id: "PR" },
+    { en: "lesson", id: "Pelajaran" },
+    { en: "uniform", id: "Seragam" },
+    { en: "blackboard", id: "Papan tulis" },
+    { en: "chalk", id: "Kapur" },
+    { en: "dictionary", id: "Kamus" },
+    { en: "ruler", id: "Penggaris" },
+    { en: "eraser", id: "Penghapus" },
+    { en: "scissors", id: "Gunting" },
+    { en: "glue", id: "Lem" },
+    { en: "grade", id: "Nilai" },
+  ],
+};
+
+export interface VocabPair {
+  en: string;
+  id: string;
+  category: string;
+}
+
+export const vocabPairs: VocabPair[] = Object.entries(BANK).flatMap(
+  ([category, list]) => list.map((p) => ({ ...p, category })),
+);
+
+/** Daftar kategori untuk filter di menu (dengan "Semua" di awal). */
+export const vocabCategories: string[] = ["Semua", ...Object.keys(BANK)];
+
+export interface VocabQuestion {
+  /** Kata Inggris yang ditampilkan. */
+  prompt: string;
+  /** Arti Indonesia yang benar. */
+  answer: string;
+  /** Dua pilihan (sudah diacak), salah satunya jawaban benar. */
+  options: [string, string];
+}
+
+function pick<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+/**
+ * Bangun satu soal: ambil kata acak + satu pengecoh dari kategori yang sama
+ * (fallback ke seluruh bank bila kategori terlalu kecil), lalu acak posisi.
+ */
+export function buildVocabQuestion(
+  pool: VocabPair[],
+  prev?: VocabQuestion | null,
+): VocabQuestion {
+  const build = (): VocabQuestion => {
+    const target = pick(pool);
+    const sameCat = pool.filter(
+      (p) => p.category === target.category && p.id !== target.id,
+    );
+    const source = sameCat.length > 0 ? sameCat : pool.filter((p) => p.id !== target.id);
+    const distractor = pick(source.length > 0 ? source : pool);
+    const options: [string, string] =
+      Math.random() < 0.5 ? [target.id, distractor.id] : [distractor.id, target.id];
+    return { prompt: target.en, answer: target.id, options };
+  };
+
+  let q = build();
+  let guard = 0;
+  while (prev && q.prompt === prev.prompt && guard < 8) {
+    q = build();
+    guard++;
+  }
+  return q;
+}

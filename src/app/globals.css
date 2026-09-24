@@ -1,26 +1,658 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================
+   DESIGN TOKENS — Battle Learning Platform
+   Tema seragam untuk papan besar, tapi tiap game punya "kulit"
+   sendiri (lihat .tex-* dan .skin-*).
+   ============================================================ */
+@theme {
+  --color-ink: #05070f;
+  --color-ink-soft: #0c1226;
+  --color-panel: #131a33;
+  --color-line: #24304f;
+
+  --color-blue: #38bdf8;
+  --color-blue-deep: #1d4ed8;
+  --color-blue-glow: #22d3ee;
+
+  --color-red: #fb7185;
+  --color-red-deep: #dc2626;
+  --color-red-glow: #f43f5e;
+
+  --color-gold: #fbbf24;
+  --color-gold-deep: #d97706;
+
+  --color-green: #34d399;
+  --color-green-deep: #059669;
+
+  --color-violet: #a78bfa;
+  --color-violet-deep: #7c3aed;
+
+  --color-teal: #2dd4bf;
+  --color-teal-deep: #0f766e;
+
+  --color-orange: #fb923c;
+  --color-orange-deep: #c2410c;
+
+  --color-pink: #f472b6;
+  --color-pink-deep: #be185d;
+
+  --color-lime: #a3e635;
+  --color-lime-deep: #4d7c0f;
+
+  --color-muted: #93a4c8;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-fredoka);
+  --font-body: var(--font-poppins);
+  --font-timer: var(--font-orbitron);
+  --font-chalk: var(--font-patrick);
+
+  --animate-float-up: floatUp 0.9s ease-out forwards;
+  --animate-pop: pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  --animate-shake: shake 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  --animate-heartbeat: heartbeat 1s ease-in-out infinite;
+  --animate-pulse-soft: pulseSoft 1.4s ease-in-out infinite;
+  --animate-drift: drift 14s ease-in-out infinite alternate;
+  --animate-wiggle: wiggle 0.7s ease-in-out infinite;
+  --animate-bounce-in: bounceIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-glow: glowPulse 1.8s ease-in-out infinite;
+  --animate-spin-slow: spinSlow 22s linear infinite;
+  --animate-spin-rev: spinRev 34s linear infinite;
+  --animate-scan: scanMove 9s linear infinite;
+  --animate-flash: flashFade 0.45s ease-out both;
+  --animate-slide-up: slideUp 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-rise: riseFade 1.2s ease-out forwards;
+  --animate-swing: swing 2.6s ease-in-out infinite;
+  --animate-bob: bob 2.2s ease-in-out infinite;
+  --animate-confetti: confettiFall 3s linear forwards;
+  --animate-burst: burstOut 0.7s ease-out forwards;
+  --animate-ring: ringPulse 1.6s ease-out infinite;
+  --animate-tilt: tiltIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-marquee: marqueeX 20s linear infinite;
+  --animate-rope: ropeSway 3.4s ease-in-out infinite;
+  --animate-blink: blink 1.1s steps(2, start) infinite;
+  --animate-mic: micPulse 1.3s ease-in-out infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-140px) scale(1.7);
+    opacity: 0;
   }
 }
 
+@keyframes pop {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-2px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(4px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-10px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(10px, 0, 0);
+  }
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes pulseSoft {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.85;
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  100% {
+    transform: translate3d(40px, 30px, 0) rotate(12deg);
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3) translateY(20px);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.06) translateY(-4px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes glowPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.55);
+  }
+  50% {
+    box-shadow: 0 0 34px 8px rgba(251, 191, 36, 0.25);
+  }
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinRev {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes scanMove {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 120px;
+  }
+}
+
+@keyframes flashFade {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(28px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes riseFade {
+  0% {
+    transform: translateY(0) scale(0.9);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-160px) scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes swing {
+  0%,
+  100% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes confettiFall {
+  0% {
+    transform: translate3d(0, -12vh, 0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(var(--dx, 0px), 112vh, 0) rotate(var(--rot, 720deg));
+    opacity: 0.85;
+  }
+}
+
+@keyframes burstOut {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--dx, 0px), var(--dy, 0px)) scale(0.2);
+    opacity: 0;
+  }
+}
+
+@keyframes ringPulse {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+@keyframes tiltIn {
+  0% {
+    transform: rotate(-8deg) scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes marqueeX {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes ropeSway {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-1deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(1deg);
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* Bar gelombang suara (Listening Battle) */
+@keyframes soundbar {
+  0% {
+    transform: scaleY(0.28);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+/* Denyut mikrofon (Pronounce It) — saat merekam */
+@keyframes micPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(244, 114, 182, 0.55);
+  }
+  50% {
+    transform: scale(1.06);
+    box-shadow: 0 0 0 26px rgba(244, 114, 182, 0);
+  }
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-ink);
+  color: #f8fafc;
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Sembunyikan scrollbar saat mode arena penuh */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+/* ============================================================
+   REUSABLE COMPONENT CLASSES
+   ============================================================ */
+@layer components {
+  .glass {
+    background: rgba(19, 26, 51, 0.72);
+    border: 1px solid var(--color-line);
+    backdrop-filter: blur(16px);
+  }
+
+  .panel {
+    background: rgba(19, 26, 51, 0.72);
+    border: 1px solid var(--color-line);
+    backdrop-filter: blur(16px);
+    border-radius: 1.5rem;
+  }
+
+  .btn-3d {
+    position: relative;
+    border-radius: 1rem;
+    font-family: var(--font-display), sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.2s ease;
+    user-select: none;
+    cursor: pointer;
+  }
+  .btn-3d:active {
+    transform: translateY(6px);
+    box-shadow: none !important;
+  }
+
+  .focus-ring:focus-visible {
+    outline: 3px solid var(--color-gold);
+    outline-offset: 3px;
+  }
+}
+
+/* ============================================================
+   GAME SKINS — tekstur & overlay (tanpa gambar eksternal)
+   ============================================================ */
+
+/* Papan neon arcade: lantai grid + garis scan */
+.tex-neon {
+  background-color: #060a1c;
+  background-image:
+    radial-gradient(900px 520px at 50% -10%, rgba(56, 189, 248, 0.22), transparent 62%),
+    radial-gradient(760px 520px at 50% 120%, rgba(217, 70, 239, 0.2), transparent 60%),
+    linear-gradient(rgba(56, 189, 248, 0.09) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.09) 1px, transparent 1px);
+  background-size: auto, auto, 46px 46px, 46px 46px;
+}
+
+/* Papan tulis kapur */
+.tex-chalkboard {
+  background-color: #0f3a2c;
+  background-image:
+    radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.07), transparent 62%),
+    repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.022) 0 2px, transparent 2px 6px),
+    repeating-linear-gradient(35deg, rgba(0, 0, 0, 0.14) 0 3px, transparent 3px 9px);
+}
+
+/* Kayu (ubin huruf / meja) */
+.tex-wood {
+  background-color: #6b3f1d;
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.18) 0 2px,
+      rgba(255, 255, 255, 0.045) 2px 5px,
+      transparent 5px 16px
+    ),
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.1) 0 9px, transparent 9px 24px),
+    linear-gradient(160deg, #9a6533, #4f2c12);
+}
+
+/* Kain meja (kasino) */
+.tex-felt {
+  background-color: #0a4630;
+  background-image:
+    radial-gradient(circle at 30% 18%, rgba(255, 255, 255, 0.07), transparent 46%),
+    radial-gradient(circle at 72% 84%, rgba(0, 0, 0, 0.3), transparent 52%),
+    repeating-conic-gradient(rgba(255, 255, 255, 0.016) 0% 25%, transparent 0% 50%);
+  background-size: auto, auto, 5px 5px;
+}
+
+/* Kertas / kartu belajar */
+.tex-paper {
+  background-color: #f4eddb;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(120, 90, 40, 0.075) 0 1px, transparent 1px 30px),
+    radial-gradient(circle at 12% 8%, rgba(255, 255, 255, 0.7), transparent 42%),
+    radial-gradient(circle at 88% 92%, rgba(150, 110, 60, 0.12), transparent 45%);
+}
+
+/* Langit savana (spelling) */
+.tex-savanna {
+  background-color: #2a1c08;
+  background-image:
+    radial-gradient(760px 420px at 50% -8%, rgba(251, 191, 36, 0.32), transparent 60%),
+    linear-gradient(180deg, #f59e0b 0%, #b45309 34%, #3f2a10 72%, #1b1206 100%);
+}
+
+/* Lab waktu (continuous) */
+.tex-time {
+  background-color: #14082b;
+  background-image:
+    radial-gradient(820px 520px at 20% 10%, rgba(124, 58, 237, 0.34), transparent 62%),
+    radial-gradient(760px 520px at 85% 92%, rgba(34, 211, 238, 0.24), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(167, 139, 250, 0.07) 0 1px, transparent 1px 40px);
+}
+
+/* Lapangan tarik tambang (sentence) */
+.tex-tug {
+  background-color: #7dd3fc;
+  background-image:
+    radial-gradient(circle at 50% 120%, rgba(52, 211, 153, 0.9), transparent 55%),
+    linear-gradient(180deg, #38bdf8 0%, #7dd3fc 55%, #bbf7d0 100%);
+}
+
+/* Perpustakaan kertas (reading) — nuansa halaman buku */
+.tex-read {
+  background-color: #1b2b3a;
+  background-image:
+    radial-gradient(900px 520px at 50% -10%, rgba(45, 212, 191, 0.24), transparent 62%),
+    radial-gradient(700px 460px at 15% 110%, rgba(251, 191, 36, 0.16), transparent 60%),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 34px);
+}
+
+/* Studio audio (listening) — nuansa gelombang suara */
+.tex-sound {
+  background-color: #1a0f06;
+  background-image:
+    radial-gradient(820px 520px at 20% 12%, rgba(251, 146, 60, 0.32), transparent 62%),
+    radial-gradient(760px 520px at 85% 92%, rgba(244, 114, 182, 0.22), transparent 60%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(251, 146, 60, 0.09) 0 2px,
+      transparent 2px 18px
+    );
+}
+
+/* Panggung karaoke (pronounce) — sorot lampu panggung */
+.tex-stage {
+  background-color: #1a0a1e;
+  background-image:
+    radial-gradient(700px 520px at 50% -5%, rgba(244, 114, 182, 0.34), transparent 62%),
+    radial-gradient(560px 420px at 12% 105%, rgba(168, 85, 247, 0.28), transparent 60%),
+    radial-gradient(560px 420px at 90% 100%, rgba(56, 189, 248, 0.2), transparent 60%),
+    repeating-linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.035) 0 2px,
+      transparent 2px 22px
+    );
+}
+
+/* Galeri foto (tebak gambar) — dinding pameran + sorot lampu */
+.tex-gallery {
+  background-color: #0c1410;
+  background-image:
+    radial-gradient(760px 520px at 50% -8%, rgba(163, 230, 53, 0.24), transparent 60%),
+    radial-gradient(560px 420px at 10% 108%, rgba(34, 211, 238, 0.18), transparent 60%),
+    radial-gradient(560px 420px at 92% 100%, rgba(251, 191, 36, 0.16), transparent 60%),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.03) 0 2px,
+      transparent 2px 46px
+    );
+}
+
+/* Garis scan CRT untuk nuansa arcade */
+.scanlines::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 5;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.22) 0 1px,
+    transparent 1px 3px
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+}
+
+/* Vignette lembut agar fokus ke tengah */
+.vignette::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
+}
+
+.chalk-text {
+  color: #f7fafc;
+  text-shadow:
+    0 0 8px rgba(255, 255, 255, 0.5),
+    0 1px 0 rgba(255, 255, 255, 0.35),
+    1px 2px 2px rgba(0, 0, 0, 0.35);
+}
+
+.stroke-text {
+  -webkit-text-stroke: 2px rgba(0, 0, 0, 0.55);
+  paint-order: stroke fill;
+}
+
+.stroke-text-sm {
+  -webkit-text-stroke: 1px rgba(0, 0, 0, 0.5);
+  paint-order: stroke fill;
+}
+
+.text-glow {
+  text-shadow:
+    0 0 18px rgba(56, 189, 248, 0.6),
+    0 2px 0 rgba(0, 0, 0, 0.6);
+}
+
+/* Ubin huruf gaya scrabble */
+.tile {
+  background-image: linear-gradient(180deg, #fde9c8 0%, #f3d19b 55%, #d9ac6b 100%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -5px 0 rgba(150, 100, 40, 0.5),
+    0 6px 0 #7a4f1e,
+    0 10px 14px rgba(0, 0, 0, 0.4);
+  color: #4a2c0c;
+  font-family: var(--font-display), sans-serif;
+}
+
+/* Punggung kartu untuk Memory Match */
+.card-back {
+  background-color: #b91c1c;
+  background-image:
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.14) 0 6px, transparent 6px 12px),
+    repeating-linear-gradient(-45deg, rgba(0, 0, 0, 0.16) 0 6px, transparent 6px 12px),
+    linear-gradient(160deg, #ef4444, #7f1d1d);
+  box-shadow:
+    inset 0 0 0 3px rgba(255, 255, 255, 0.55),
+    0 6px 12px rgba(0, 0, 0, 0.45);
+}
+
+/* Bar combo/streak */
+.combo-bar {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24, #fde68a);
+  box-shadow: 0 0 18px rgba(251, 191, 36, 0.7);
+}
+
+/* Aksesibilitas: kurangi gerakan */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
