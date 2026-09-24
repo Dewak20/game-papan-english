@@ -14,10 +14,20 @@ import {
 } from "@/lib/store";
 import { getPin, setPin, useUnlocked, markUnlocked, lockNow } from "@/lib/pin";
 import { apiDelete, apiGet, apiPost, useCloudStatus, initSync } from "@/lib/sync";
+import { ImportWizard } from "./ImportWizard";
+import { DeckBuilder } from "./DeckBuilder";
 import type { ContinuousQuestion, Student } from "@/lib/types";
 import type { VocabPair } from "@/lib/vocabulary";
 
-type Tab = "students" | "sentences" | "questions" | "vocab" | "words" | "backup";
+type Tab =
+  | "students"
+  | "sentences"
+  | "questions"
+  | "vocab"
+  | "words"
+  | "import"
+  | "decks"
+  | "backup";
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: "students", label: "Data Siswa", icon: "🧑‍🎓" },
@@ -25,6 +35,8 @@ const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: "questions", label: "Soal Grammar", icon: "📝" },
   { id: "vocab", label: "Kosakata", icon: "📚" },
   { id: "words", label: "Bank Kata", icon: "🔤" },
+  { id: "import", label: "Impor Excel/CSV", icon: "📥" },
+  { id: "decks", label: "Pembuat Deck", icon: "🧱" },
   { id: "backup", label: "Cadangkan", icon: "💾" },
 ];
 
@@ -576,6 +588,16 @@ export default function SettingsClient() {
             ))}
           </section>
         ) : null}
+
+        {tab === "import" ? (
+          <ImportWizard
+            onFlash={flash}
+            onCloudConfigured={cloud.configured}
+            teacherAuth={teacherAuth}
+          />
+        ) : null}
+
+        {tab === "decks" ? <DeckBuilder onFlash={flash} /> : null}
 
         {tab === "backup" ? (
           <section className="space-y-6">
