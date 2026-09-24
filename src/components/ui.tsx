@@ -158,6 +158,45 @@ export function SpeedHint({ className = "" }: { className?: string }) {
   );
 }
 
+/**
+ * Petunjuk buzzer keyboard: host dapat menekan angka untuk menjawab
+ * mewakili tiap tim (BLUE: 1–4, RED: 7 8 9 0).
+ */
+export function KeyboardHint({
+  solo = false,
+  className = "",
+}: {
+  solo?: boolean;
+  className?: string;
+}) {
+  const keyCls =
+    "rounded-md border border-white/25 bg-black/40 px-2 py-0.5 font-timer text-sm text-white/80";
+  return (
+    <div
+      className={`flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm text-muted ${className}`}
+    >
+      <span className="flex items-center gap-2">
+        <span className="font-semibold text-blue">⌨️ BLUE</span>
+        {["1", "2", "3", "4"].map((k) => (
+          <kbd key={k} className={keyCls}>
+            {k}
+          </kbd>
+        ))}
+      </span>
+      {!solo ? (
+        <span className="flex items-center gap-2">
+          <span className="font-semibold text-red">RED</span>
+          {["7", "8", "9", "0"].map((k) => (
+            <kbd key={k} className={keyCls}>
+              {k}
+            </kbd>
+          ))}
+        </span>
+      ) : null}
+    </div>
+  );
+}
+
 /** Badge tim dengan skor besar (dipakai di HUD arena). */
 export function TeamBadge({
   side,

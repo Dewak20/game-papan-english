@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Fredoka, Poppins, Orbitron, Patrick_Hand } from "next/font/google";
 import { CloudBoot } from "@/components/CloudBoot";
+import { ServiceWorkerRegistrar } from "@/components/ServiceWorkerRegistrar";
 import "./globals.css";
 
 const fredoka = Fredoka({
@@ -31,11 +32,20 @@ export const metadata: Metadata = {
   title: "Battle Learning Platform",
   description:
     "Platform pembelajaran interaktif berbasis permainan untuk layar papan besar kelas.",
+  applicationName: "Battle Learning Platform",
+  appleWebApp: {
+    capable: true,
+    title: "BattleLearn",
+    statusBarStyle: "black-translucent",
+  },
+  formatDetection: { telephone: false },
 };
 
-export const viewport = {
+export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  themeColor: "#05070f",
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -46,6 +56,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full">
         <CloudBoot />
+        <ServiceWorkerRegistrar />
         {children}
       </body>
     </html>

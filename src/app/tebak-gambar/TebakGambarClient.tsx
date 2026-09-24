@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { GameHeader, TimerBadge, formatClock } from "@/components/GameChrome";
-import { Overlay, ChoiceButton, StartButton, teamConfig, SectionLabel, SpeedHint } from "@/components/ui";
+import { Overlay, ChoiceButton, StartButton, teamConfig, SectionLabel, SpeedHint, KeyboardHint } from "@/components/ui";
 import { Confetti, Burst, ScreenFlash, Countdown, WinnerBanner, ScoreBoard } from "@/components/juice";
 import { useJuice } from "@/lib/useJuice";
 import { useSound } from "@/lib/useSound";
@@ -14,6 +14,8 @@ import { useScreenShake, GAME_ROOT_ID } from "@/lib/useScreenShake";
 import { nowMs } from "@/lib/clock";
 import { speedBonus } from "@/lib/scoring";
 import { useCountdown } from "@/lib/useCountdown";
+import { useKeyboardChoices, BUZZER_KEYS } from "@/lib/useKeyboardChoices";
+import { preloadImage } from "@/lib/preloadImage";
 import { SaveScoreDialog } from "@/components/SaveScoreDialog";
 import {
   buildPictureQuestion,
@@ -104,6 +106,8 @@ export default function TebakGambarClient() {
 
   const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const qStartRef = useRef(0);
+  /** Soal berikutnya yang sudah dibangun lebih awal (agar gambarnya bisa dipreload). */
+  const peekRef = useRef<PictureQuestion | null>(null);
 
   const pool = useMemo(() => pictureByCategory(category), [category]);
 
@@ -127,13 +131,24 @@ export default function TebakGambarClient() {
     return () => clearInterval(id);
   }, [phase, play]);
 
+  // Bila kategori berubah, soal "intipan" (peek) lama tidak lagi relevan.
+  useEffect(() => {
+    peekRef.current = null;
+  }, [pool]);
+
   const dealQuestion = useCallback(
     (prev: PictureQuestion | null) => {
+      const next = peekRef.current ?? buildPictureQuestion(pool, prev);
       setImgLoaded(false);
-      setQuestion(buildPictureQuestion(pool, prev));
+      setQuestion(next);
       setAnswered({ blue: false, red: false });
       setFeedback({ blue: null, red: null });
       qStartRef.current = nowMs();
+
+      // Siapkan & preload gambar soal berikutnya supaya sudah hangat.
+      const peek = buildPictureQuestion(pool, next);
+      peekRef.current = peek;
+      preloadImage(peek.item.image);
     },
     [pool],
   );
@@ -194,6 +209,14 @@ export default function TebakGambarClient() {
       }, 1200);
     }
   };
+
+  // Buzzer keyboard: host menekan angka (BLUE: 1–4, RED: 7 8 9 0).
+  useKeyboardChoices({
+    enabled: phase === "playing" && !!question,
+    solo,
+    onChoice: answer,
+    optionCount: LETTERS.length,
+  });
 
   const winner =
     teams.blue > teams.red
@@ -302,6 +325,9 @@ export default function TebakGambarClient() {
                     >
                       <span className="font-display opacity-70">{LETTERS[i]}.</span>
                       <span className="flex-1">{question ? question.options[i] : "…"}</span>
+                      <span className="hidden rounded-md border border-white/25 bg-black/30 px-2 py-0.5 font-timer text-xs text-white/60 sm:inline">
+                        {BUZZER_KEYS[side][i]}
+                      </span>
                     </button>
                   );
                 })}
@@ -406,6 +432,7 @@ export default function TebakGambarClient() {
           </div>
 
           <SpeedHint />
+          <KeyboardHint solo={solo} className="mb-6" />
           <StartButton
             label={pool.length < 4 ? "GAMBAR KURANG" : "START GAME"}
             onClick={startGame}
